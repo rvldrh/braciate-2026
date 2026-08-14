@@ -19,16 +19,19 @@ export function ComingSoonJargon({ jargonRef }: ComingSoonJargonProps) {
   return (
     <div
       ref={jargonRef}
-      className=" absolute left-1/2 top-[44vh] z-40 -translate-x-1/2 -translate-y-1/2 overflow-visible text-center opacity-0 will-change-transform"
+      className=" absolute left-1/2 top-[44vh] z-40 w-[calc(100%-2rem)] max-w-fit -translate-x-1/2 -translate-y-1/2 overflow-visible text-center opacity-0 will-change-transform"
     >
-      <div className="flex items-center gap-4">
+      <div
+        className="flexflex-colitems-centergap-1.5sm:flex-rowsm:gap-4"
+      >
         <div
           data-coming-soon-jargon-line="beyond"
-          className="relative overflow-hidden whitespace-nowrap"
+          className="relativemax-w-fulloverflow-hiddenwhitespace-nowrap"
         >
           <p
             data-coming-soon-jargon-text="beyond"
-            className="font-the-seasons text-[clamp(1rem,2.4vw,2.5rem)] font-semibold tracking-[0.12em] text-yellow-50 will-change-transform"
+            className="font-the-seasonstext-[clamp(0.82rem,3.8vw,2.5rem)]font-semiboldleading-tighttracking-[0.06em]text-yellow-50will-change-transformsm:text-[clamp(1rem,2.4vw,2.5rem)]sm:tracking-[0.12em]
+            "
             style={textStyle}
           >
             Beyond Appreciation
@@ -37,11 +40,13 @@ export function ComingSoonJargon({ jargonRef }: ComingSoonJargonProps) {
 
         <div
           data-coming-soon-jargon-line="connection"
-          className="relative mt-2 overflow-hidden whitespace-nowrap"
+          className="relativemax-w-fulloverflow-hiddenwhitespace-nowrapsm:mt-2
+          "
         >
           <p
             data-coming-soon-jargon-text="connection"
-            className="font-the-seasons text-[clamp(1rem,2.4vw,2.5rem)] font-semibold tracking-[0.12em] text-yellow-50 will-change-transform"
+            className="font-the-seasonstext-[clamp(0.82rem,3.8vw,2.5rem)]font-semiboldleading-tighttracking-[0.06em]text-yellow-50will-change-transformsm:text-[clamp(1rem,2.4vw,2.5rem)]sm:tracking-[0.12em]
+            "
             style={textStyle}
           >
             Building Connection
@@ -52,13 +57,15 @@ export function ComingSoonJargon({ jargonRef }: ComingSoonJargonProps) {
       <span
         data-coming-soon-jargon-sparkle="main"
         aria-hidden="true"
-        className="pointer-events-none absolute left-0 top-[25%] z-10 size-1.5 -translate-y-1/2 rounded-full bg-yellow-100 opacity-0 shadow-[0_0_8px_rgba(255,235,170,0.95)] md:size-2"
+        className="pointer-events-noneabsoluteleft-0top-[25%]z-10size-1.5-translate-y-1/2rounded-fullbg-yellow-100opacity-0shadow-[0_0_8px_rgba(255,235,170,0.95)]md:size-2
+        "
       />
 
       <span
         data-coming-soon-jargon-sparkle="small"
         aria-hidden="true"
-        className="pointer-events-none absolute left-0 top-[72%] size-1 rounded-full bg-yellow-200 opacity-0 shadow-[0_0_7px_rgba(255,225,140,0.9)]"
+        className="pointer-events-noneabsoluteleft-0top-[72%]size-1rounded-fullbg-yellow-200opacity-0shadow-[0_0_7px_rgba(255,225,140,0.9)]
+        "
       />
     </div>
   );
