@@ -18,9 +18,21 @@ export function ComingSoonTitle({
   return (
     <div
       ref={titleRef}
-      className="absolute left-1/2 z-30 flex -translate-x-1/2 flex-col items-center will-change-transform"
+      className="
+        absolute
+        left-1/2
+        top-[39vh]
+        z-30
+        flex
+        -translate-x-1/2
+        flex-col
+        items-center
+        will-change-transform
+        sm:top-[40vh]
+        md:top-[42vh]
+        lg:top-[44vh]
+    "
       style={{
-        top: "44vh",
         opacity: 0,
         filter: "blur(18px)",
         transformOrigin: "center center",

@@ -8,9 +8,16 @@ export const ComingSoonLogo = forwardRef<HTMLDivElement>(
     return (
       <div
         ref={ref}
-        className="absolute left-1/2 z-20 -translate-x-1/2 -translate-y-1/2 will-change-transform"
+        className="
+          absolute
+          left-1/2
+          z-20
+          -translate-x-1/2
+          -translate-y-1/2
+          will-change-transform
+        "
         style={{
-          top: "50vh",
+          top: "42vh",
           width: "clamp(120px, 22vw, 420px)",
           opacity: 0,
         }}
