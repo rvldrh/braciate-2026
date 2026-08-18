@@ -6,9 +6,11 @@ import gsap from "gsap";
 
 import {
   COMING_SOON_TIMELINE,
+  STAGE_TOP_HEIGHT_DVH,
   STAR_KEYFRAMES,
   WORLD_TRANSLATE_KEYFRAMES,
 } from "../constants/coming-soon.constant";
+import { getViewportUnits } from "../utils/viewport";
 
 import type { ComingSoonRefs } from "../types/coming-soon.type";
 
@@ -104,19 +106,26 @@ export function useComingSoonTimeline(refs: ComingSoonRefs) {
 
       /*
        * -----------------------------------------------------------
-       * VIEWPORT UNITS — computed once at mount
+       * VIEWPORT UNITS — computed once at mount, from the SAME
+       * measurement the CSS layout itself uses (`dvh`).
        *
        * vw = 1% of viewport width in pixels
-       * vh = 1% of viewport height in pixels
+       * vh = 1% of the *dynamic* viewport height in pixels — this is
+       *      guaranteed to match `dvh` in CSS, not `window.innerHeight`.
+       *
+       * See utils/viewport.ts for the full rationale: `window.innerHeight`
+       * and CSS `vh` can disagree on mobile Safari / in-app WebViews
+       * depending on browser-chrome state, which is exactly what caused
+       * the same intro to render at different positions on two iPhones
+       * (or the same iPhone opened two different ways).
        *
        * These are used to convert xVw/yVh constants into pixel values
        * so GSAP animates with absolute pixel offsets that are always
        * proportional to the current viewport — identical visual result
-       * on every screen size.
+       * on every screen size AND every browser chrome state.
        * -----------------------------------------------------------
        */
-      const vw = window.innerWidth / 100;
-      const vh = window.innerHeight / 100;
+      const { vw, vh, viewportHeightPx } = getViewportUnits();
 
       /*
        * Helper: convert a STAR_KEYFRAMES entry to GSAP pixel x/y
@@ -135,14 +144,26 @@ export function useComingSoonTimeline(refs: ComingSoonRefs) {
       /*
        * -----------------------------------------------------------
        * WORLD SCROLL — stage height calculation
+       *
+       * `viewportHeightPx` above already IS what `100dvh` resolves to
+       * right now (see getViewportUnits()). The multipliers below come
+       * from STAGE_TOP_HEIGHT_DVH in coming-soon.constant.ts — the same
+       * constant that documents what the Tailwind classes in
+       * ComingSoonStageTop.tsx (`h-[100dvh] md:h-[110dvh] lg:h-[120dvh]`)
+       * must be kept in sync with. This guarantees the pixel distance
+       * GSAP scrolls the world by is EXACTLY the rendered height of the
+       * stage — not an approximation based on a possibly-stale
+       * `window.innerHeight`.
        * -----------------------------------------------------------
        */
-      const viewportHeight = window.innerHeight;
-
       const getStageTopHeight = () => {
-        if (window.innerWidth < 768) return viewportHeight;
-        if (window.innerWidth < 1024) return viewportHeight * 1.1;
-        return viewportHeight * 1.2;
+        if (window.innerWidth < 768) {
+          return viewportHeightPx * (STAGE_TOP_HEIGHT_DVH.mobile / 100);
+        }
+        if (window.innerWidth < 1024) {
+          return viewportHeightPx * (STAGE_TOP_HEIGHT_DVH.tablet / 100);
+        }
+        return viewportHeightPx * (STAGE_TOP_HEIGHT_DVH.desktop / 100);
       };
 
       const initialWorldY = -getStageTopHeight();

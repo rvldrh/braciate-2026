@@ -10,9 +10,7 @@ import { useComingSoonTimeline } from "../hooks/useComingSoonTimeline";
 export function ComingSoonContainer() {
   const worldRef = useRef<HTMLDivElement>(null);
 
-  // Outer: position, scale, opacity, trajectory tilt
   const shootingStarRef = useRef<HTMLDivElement>(null);
-  // Inner: continuous spin rotation (separate layer prevents GSAP conflict)
   const shootingStarInnerRef = useRef<HTMLDivElement>(null);
 
   const backgroundRef = useRef<HTMLDivElement>(null);

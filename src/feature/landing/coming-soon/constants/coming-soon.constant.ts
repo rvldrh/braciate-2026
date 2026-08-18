@@ -1,10 +1,28 @@
-export const WORLD_HEIGHT_VH = {
+/**
+ * These two objects are the SINGLE source of truth for the stage/world
+ * heights, expressed as a multiple of `dvh` (not plain `vh` — see
+ * utils/viewport.ts for why that distinction matters on mobile Safari
+ * / in-app browsers).
+ *
+ * They are consumed in two places that must always agree:
+ *   1. The Tailwind classes in ComingSoonStageTop.tsx / ComingSoonWorld.tsx
+ *      (`h-[100dvh] md:h-[110dvh] lg:h-[120dvh]`, etc.) — hardcoded as
+ *      literal strings because Tailwind's JIT compiler needs literal
+ *      class names, it can't read these constants at build time.
+ *   2. `getStageTopHeight()` in useComingSoonTimeline.tsx, which DOES
+ *      import and use these constants directly for its pixel math.
+ *
+ * If you ever change the breakpoint multipliers, change them here AND
+ * update the literal Tailwind classes in the two component files to
+ * match — both locations have a comment pointing back to this file.
+ */
+export const WORLD_HEIGHT_DVH = {
   mobile: 200,
   tablet: 210,
   desktop: 220,
 } as const;
 
-export const STAGE_TOP_HEIGHT_VH = {
+export const STAGE_TOP_HEIGHT_DVH = {
   mobile: 100,
   tablet: 110,
   desktop: 120,
@@ -126,10 +144,6 @@ export const STAR_KEYFRAMES = [
     rotate: -2,
     opacity: 1,
   },
-
-  // Pivot selesai.
-  // Mulai dari sini bintang langsung tumbuh
-  // secara kontinu sampai full-screen.
   {
     time: 3.8,
     scale: 0.65,
@@ -138,8 +152,6 @@ export const STAR_KEYFRAMES = [
     rotate: -8,
     opacity: 1,
   },
-
-  // Final state — tidak ada checkpoint tengah lagi.
   {
     time: 8.5,
     scale: 8,
@@ -171,8 +183,6 @@ export const WORLD_TRANSLATE_KEYFRAMES = [
     progress: 0.38,
   },
 
-  // Setelah pivot, world langsung naik terus
-  // sampai posisi final.
   {
     time: 8.5,
     progress: 1,

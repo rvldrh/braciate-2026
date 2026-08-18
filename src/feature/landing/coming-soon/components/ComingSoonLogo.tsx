@@ -3,6 +3,10 @@
 import Image from "next/image";
 import { forwardRef } from "react";
 
+/**
+ * priority dihapus — cuma background.webp yang boleh priority (LCP).
+ * Logo tetap opacity:0 di mount, jadi tidak berkontribusi ke LCP.
+ */
 export const ComingSoonLogo = forwardRef<HTMLDivElement>(
   function ComingSoonLogo(_, ref) {
     return (
@@ -17,7 +21,7 @@ export const ComingSoonLogo = forwardRef<HTMLDivElement>(
           will-change-transform
         "
         style={{
-          top: "42vh",
+          top: "42dvh",
           width: "clamp(120px, 22vw, 420px)",
           opacity: 0,
         }}
@@ -27,7 +31,6 @@ export const ComingSoonLogo = forwardRef<HTMLDivElement>(
           alt="Braciate 2026"
           width={560}
           height={560}
-          priority
           className="h-auto w-full object-contain"
         />
       </div>

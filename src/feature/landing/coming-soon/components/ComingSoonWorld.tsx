@@ -31,9 +31,10 @@ export function ComingSoonWorld({
   yearRef,
 }: ComingSoonWorldProps) {
   return (
+    // Heights must match WORLD_HEIGHT_DVH in constants/coming-soon.constant.ts.
     <div
       ref={worldRef}
-      className="absolute inset-x-0 top-0 flex h-[200vh] flex-col will-change-transform md:h-[210vh] lg:h-[220vh]"
+      className="absolute inset-x-0 top-0 flex h-[200dvh] flex-col will-change-transform md:h-[210dvh] lg:h-[220dvh]"
     >
       <ComingSoonStageTop
         bgRevealRef={bgRevealRef}

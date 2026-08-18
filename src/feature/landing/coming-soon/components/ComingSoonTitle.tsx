@@ -9,6 +9,15 @@ interface ComingSoonTitleProps {
   dividerRightRef: RefObject<HTMLDivElement | null>;
 }
 
+/**
+ * PERUBAHAN PERFORMA:
+ * filter: blur(18px) dihapus dari reveal state. Blur-to-sharp pada elemen
+ * yang juga di-scale itu mahal untuk repaint (apalagi berdekatan dengan
+ * 5 elemen sparkle yang punya box-shadow glow sendiri-sendiri).
+ * Diganti transform: scale(0.92) — reveal-nya jadi scale+opacity murni
+ * (GSAP animasikan scale 0.92 -> 1 + opacity 0 -> 1), efek "muncul"-nya
+ * tetap terasa tapi jauh lebih murah untuk browser manapun.
+ */
 export function ComingSoonTitle({
   titleRef,
   dividerLeftRef,
@@ -21,20 +30,17 @@ export function ComingSoonTitle({
       className="
         absolute
         left-1/2
-        top-[39vh]
+        top-[36dvh]
         z-30
         flex
         -translate-x-1/2
         flex-col
         items-center
         will-change-transform
-        sm:top-[40vh]
-        md:top-[42vh]
-        lg:top-[44vh]
     "
       style={{
         opacity: 0,
-        filter: "blur(18px)",
+        transform: "scale(0.92)",
         transformOrigin: "center center",
       }}
     >

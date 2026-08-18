@@ -33,7 +33,10 @@ export function ComingSoonStageTop({
   yearRef,
 }: ComingSoonStageTopProps) {
   return (
-    <section className="relative h-[100vh] w-full shrink-0 overflow-hidden md:h-[110vh] lg:h-[120vh]">
+    // Heights must match STAGE_TOP_HEIGHT_DVH in constants/coming-soon.constant.ts.
+    // Using `dvh` (not `vh`) so this tracks the REAL visible viewport on
+    // mobile Safari / in-app browsers instead of the toolbar-inflated one.
+    <section className="relative h-[100dvh] w-full shrink-0 overflow-hidden md:h-[110dvh] lg:h-[120dvh]">
       <ComingSoonBackgroundReveal ref={bgRevealRef} />
 
       <ComingSoonStarfield />

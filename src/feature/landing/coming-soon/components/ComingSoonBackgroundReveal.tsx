@@ -3,6 +3,10 @@
 import Image from "next/image";
 import { forwardRef } from "react";
 
+/**
+ * Satu-satunya gambar yang boleh pakai priority (ini elemen LCP utama).
+ * src sudah diganti ke .webp sesuai keputusan sebelumnya.
+ */
 export const ComingSoonBackgroundReveal = forwardRef<HTMLDivElement, object>(
   function ComingSoonBackgroundReveal(_, ref) {
     return (
@@ -13,7 +17,7 @@ export const ComingSoonBackgroundReveal = forwardRef<HTMLDivElement, object>(
       >
         <div className="absolute inset-0">
           <Image
-            src="/images/background/background.svg"
+            src="/images/background/background.webp"
             alt=""
             fill
             priority
