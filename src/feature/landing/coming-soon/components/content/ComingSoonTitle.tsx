@@ -107,7 +107,7 @@ export function ComingSoonTitle({
     leading-none
     will-change-transform
     text-[clamp(2rem,12cqw,4rem)]
-    lg:text-[clamp(3rem,8cqw,8rem)]
+    lg:text-[clamp(3rem,15cqw,8rem)]
   "
       >
         <span
@@ -121,7 +121,7 @@ export function ComingSoonTitle({
           C
         </span>
 
-        <span className="ml-[0.15em] font-the-seasons text-yellow-100 lg:text-[clamp(3rem,15cqw,8rem)]">
+        <span className="ml-[0.15em] font-the-seasons text-yellow-100">
           oming
         </span>
 
@@ -136,7 +136,7 @@ export function ComingSoonTitle({
           S
         </span>
 
-        <span className="ml-[0.15em] font-the-seasons text-yellow-100 lg:text-[clamp(3rem,15cqw,8rem)]">
+        <span className="ml-[0.15em] font-the-seasons text-yellow-100">
           oon
         </span>
       </h1>
@@ -148,10 +148,10 @@ export function ComingSoonTitle({
     bg-yellow-300/80
     w-[clamp(2rem,30cqw,5rem)]
     sm:w-[clamp(3rem,75cqw,16rem)]
+    lg:w-[clamp(4rem,20cqw,14rem)]
   "
           style={{
             height: "2px",
-            width: "clamp(2.5rem, 40cqw, 8rem)",
           }}
         />
 
@@ -162,6 +162,7 @@ export function ComingSoonTitle({
     shrink-0
     w-[clamp(10px,30cqw,16px)]
     sm:w-[clamp(14px,66.3cqw,22px)]
+    lg:w-[clamp(16px,3cqw,28px)]
   "
           style={{
             aspectRatio: "1 / 1",
@@ -183,10 +184,10 @@ export function ComingSoonTitle({
     bg-yellow-300/80
     w-[clamp(2rem,30cqw,5rem)]
     sm:w-[clamp(3rem,75cqw,16rem)]
+    lg:w-[clamp(4rem,20cqw,14rem)]
   "
           style={{
             height: "2px",
-            width: "clamp(2.5rem, 40cqw, 8rem)",
           }}
         />
       </div>
@@ -204,7 +205,7 @@ export function ComingSoonTitle({
           className="
     text-yellow-100
     text-[clamp(0.65rem,28cqw,1rem)]
-    lg:text-[clamp(0.75rem,45cqw,1.25rem)]
+    lg:text-[clamp(0.75rem,45cqw,1.5rem)]
   "
           style={{
             letterSpacing: "0.15em",
@@ -221,7 +222,7 @@ export function ComingSoonTitle({
     font-medium
     text-yellow-100
     text-[clamp(0.65rem,28cqw,1rem)]
-    lg:text-[clamp(0.75rem,45cqw,1.25rem)]
+    lg:text-[clamp(0.75rem,45cqw,1.5rem)]
   "
           style={{
             letterSpacing: "0.15em",
