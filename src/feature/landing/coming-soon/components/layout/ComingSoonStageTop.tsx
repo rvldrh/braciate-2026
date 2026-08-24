@@ -69,7 +69,7 @@ export function ComingSoonStageTop({
   "
         style={{
           width: "100%",
-          maxWidth: "100%",
+          maxWidth: `${HERO_MAX_WIDTH_PX}px`,
           containerType: "inline-size",
         }}
       >

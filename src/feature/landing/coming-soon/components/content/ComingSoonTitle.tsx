@@ -115,13 +115,13 @@ export function ComingSoonTitle({
     font-sloop
     text-yellow-300
     text-[clamp(2.5rem,14cqw,5rem)]
-    lg:text-[clamp(4rem,9cqw,10.5rem)]
+    lg:text-[clamp(4rem,19cqw,10.5rem)]
   "
         >
           C
         </span>
 
-        <span className="ml-[0.15em] font-the-seasons text-yellow-100">
+        <span className="ml-[0.15em] font-the-seasons text-yellow-100 lg:text-[clamp(3rem,15cqw,8rem)]">
           oming
         </span>
 
@@ -130,13 +130,13 @@ export function ComingSoonTitle({
     font-sloop
     text-yellow-300
     text-[clamp(2.5rem,14cqw,5rem)]
-    lg:text-[clamp(4rem,9cqw,10.5rem)]
+    lg:text-[clamp(4rem,19cqw,10.5rem)]
   "
         >
           S
         </span>
 
-        <span className="ml-[0.15em] font-the-seasons text-yellow-100">
+        <span className="ml-[0.15em] font-the-seasons text-yellow-100 lg:text-[clamp(3rem,15cqw,8rem)]">
           oon
         </span>
       </h1>

@@ -48,8 +48,20 @@ export const BREAKPOINTS = {
  * rendering is unaffected. Above this cap, the wrapper's width simply
  * stops growing, so every element's `cqw`-based size flatlines too — a
  * 1024px window and a 2560px window render pixel-identical.
+ *
+ * TUNING NOTE: this was originally 520 (matching the Logo's own max
+ * clamp width), but the `lg:` clamp() formulas on Title/divider/gap
+ * (e.g. `clamp(3rem, 8cqw, 8rem)`) were tuned assuming a wider
+ * container than that. At a 520px cap, `8cqw` only ever produces
+ * ~41.6px — below the clamp's own MINIMUM — so on every desktop size
+ * the title rendered at its floor value instead of anywhere near its
+ * intended range, making it look undersized. 900 is the smallest cap
+ * that lands those `lg:` cqw values comfortably inside their clamp
+ * range (not at the floor, not at the ceiling) while still being a
+ * fixed number — so 1024px, 1440px, and 4K windows all render
+ * pixel-identical, same as before.
  */
-export const HERO_MAX_WIDTH_PX = 520;
+export const HERO_MAX_WIDTH_PX = 900;
 
 /**
  * Stage/world heights, in multiples of `dvh`.
