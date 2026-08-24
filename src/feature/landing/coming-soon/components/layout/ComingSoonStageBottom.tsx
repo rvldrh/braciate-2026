@@ -1,6 +1,6 @@
 "use client";
 
-import { ComingSoonStarfield } from "./ComingSoonStarfield";
+import { ComingSoonStarfield } from "../scene/ComingSoonStarfield";
 
 export function ComingSoonStageBottom() {
   return (

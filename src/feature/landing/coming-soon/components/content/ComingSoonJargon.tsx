@@ -6,6 +6,18 @@ interface ComingSoonJargonProps {
   jargonRef: RefObject<HTMLDivElement | null>;
 }
 
+/**
+ * RESPONSIVE FIX: this used to be `position: absolute; top: 48dvh` with
+ * its own `-translate-x-1/2 -translate-y-1/2` centering — an independent
+ * coordinate system from Logo (42dvh) and Title (36dvh). It is now
+ * centered by its parent slot in ComingSoonHero.tsx (`absolute inset-0
+ * flex items-center justify-center`), which is itself sized off Logo's
+ * own box — so Jargon (which can be 1 or 2 lines depending on the
+ * `sm:flex-row` breakpoint below) never has to guess its own vertical
+ * position; it just fills the slot it's handed. `relative` here (instead
+ * of the old `absolute`) is what makes this div a valid containing block
+ * for its own absolutely-positioned sparkle children below.
+ */
 export function ComingSoonJargon({ jargonRef }: ComingSoonJargonProps) {
   const textStyle = {
     textShadow:
@@ -19,18 +31,37 @@ export function ComingSoonJargon({ jargonRef }: ComingSoonJargonProps) {
   return (
     <div
       ref={jargonRef}
-      className=" absolute left-1/2 top-[48dvh] z-40 w-[calc(100%-2rem)] max-w-fit -translate-x-1/2 -translate-y-1/2 overflow-visible text-center opacity-0 will-change-transform
+      className="
+  relative
+  z-40
+  w-full
+  max-w-full
+  overflow-visible
+  text-center
+  opacity-0
+  will-change-transform
+  sm:w-max
+  sm:max-w-none
 "
     >
       <div className=" flex flex-col items-center gap-1.5 sm:flex-row sm:gap-4">
         <div
           data-coming-soon-jargon-line="beyond"
-          className=" relative max-w-full overflow-hidden whitespace-nowrap"
+          className="relative max-w-full overflow-hidden whitespace-nowrap sm:shrink-0 sm:max-w-none"
         >
           <p
             data-coming-soon-jargon-text="beyond"
-            className=" font-the-seasons text-[clamp(0.82rem,3.8vw,2.5rem)] font-semibold leading-tight tracking-[0.06em] text-yellow-50 will-change-transform sm:text-[clamp(1rem,2.4vw,2.5rem)] sm:tracking-[0.12em]
-            "
+            className="
+    font-the-seasons
+    text-[clamp(0.82rem,8cqw,1.5rem)]
+    font-semibold
+    leading-tight
+    tracking-[0.06em]
+    text-yellow-50
+    will-change-transform
+    sm:text-[clamp(1rem,60cqw,2rem)]
+    sm:tracking-[0.12em]
+  "
             style={textStyle}
           >
             Beyond Appreciation
@@ -39,11 +70,21 @@ export function ComingSoonJargon({ jargonRef }: ComingSoonJargonProps) {
 
         <div
           data-coming-soon-jargon-line="connection"
-          className="relative max-w-full overflow-hidden whitespace-nowrap sm:mt-2"
+          className="relative max-w-full overflow-hidden whitespace-nowrap sm:shrink-0 sm:max-w-none"
         >
           <p
             data-coming-soon-jargon-text="connection"
-            className=" font-the-seasons text-[clamp(0.82rem,3.8vw,2.5rem)] font-semibold leading-tight tracking-[0.06em] text-yellow-50 will-change-transform sm:text-[clamp(1rem,2.4vw,2.5rem)] sm:tracking-[0.12em]"
+            className="
+   font-the-seasons
+    text-[clamp(0.82rem,8cqw,1.5rem)]
+    font-semibold
+    leading-tight
+    tracking-[0.06em]
+    text-yellow-50
+    will-change-transform
+    sm:text-[clamp(1rem,60cqw,2rem)]
+    sm:tracking-[0.12em]
+  "
             style={textStyle}
           >
             Building Connection

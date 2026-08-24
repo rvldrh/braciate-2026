@@ -2,10 +2,10 @@
 
 import { useRef } from "react";
 
-import { ComingSoonWorld } from "../components/ComingSoonWorld";
-import { ComingSoonShootingStar } from "../components/ComingSoonShootingStar";
+import { ComingSoonWorld } from "./ComingSoonWorld";
+import { ComingSoonShootingStar } from "../scene/ComingSoonShootingStar";
 
-import { useComingSoonTimeline } from "../hooks/useComingSoonTimeline";
+import { useComingSoonTimeline } from "../../hooks/useComingSoonTimeline";
 
 export function ComingSoonContainer() {
   const worldRef = useRef<HTMLDivElement>(null);
@@ -14,6 +14,7 @@ export function ComingSoonContainer() {
   const shootingStarInnerRef = useRef<HTMLDivElement>(null);
 
   const backgroundRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
 
@@ -30,6 +31,7 @@ export function ComingSoonContainer() {
     starRef: shootingStarRef,
     starInnerRef: shootingStarInnerRef,
     bgRevealRef: backgroundRef,
+    heroRef,
     logoRef,
     jargonRef,
     titleRef,
@@ -45,6 +47,7 @@ export function ComingSoonContainer() {
       <ComingSoonWorld
         worldRef={worldRef}
         bgRevealRef={backgroundRef}
+        heroRef={heroRef}
         logoRef={logoRef}
         jargonRef={jargonRef}
         titleRef={titleRef}

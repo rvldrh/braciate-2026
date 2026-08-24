@@ -2,23 +2,14 @@
 
 import { useMemo, useSyncExternalStore } from "react";
 
-import { generateStarfield } from "../utils/generateStarfield";
+import { getBreakpointTier } from "../../hooks/useBreakpoint";
+import { generateStarfield } from "../../utils/generateStarfield";
 
-const MOBILE_COUNT = 50;
-const TABLET_COUNT = 75;
-const DESKTOP_COUNT = 90;
-
-function getStarCount() {
-  if (window.innerWidth < 768) {
-    return MOBILE_COUNT;
-  }
-
-  if (window.innerWidth < 1024) {
-    return TABLET_COUNT;
-  }
-
-  return DESKTOP_COUNT;
-}
+const STAR_COUNT_BY_TIER = {
+  mobile: 50,
+  tablet: 75,
+  desktop: 90,
+} as const;
 
 function subscribe() {
   return () => {};
@@ -39,6 +30,11 @@ function getServerSnapshot() {
  * menghasilkan ratusan tween infinite-loop berjalan di main thread —
  * penyebab utama lag/crash di browser selain Chrome.
  * CSS animation dijalankan browser di compositor thread, jauh lebih murah.
+ *
+ * Star count is computed ONCE at mount (not reactively on resize) — same
+ * behavior as before, just now reading the mobile/tablet/desktop split
+ * from the shared `getBreakpointTier()` instead of a second hardcoded
+ * `768`/`1024` check (see coming-soon-responsive-audit.md §2).
  */
 export function ComingSoonStarfield() {
   const isClient = useSyncExternalStore(
@@ -52,7 +48,8 @@ export function ComingSoonStarfield() {
       return [];
     }
 
-    return generateStarfield(getStarCount());
+    const tier = getBreakpointTier(window.innerWidth);
+    return generateStarfield(STAR_COUNT_BY_TIER[tier]);
   }, [isClient]);
 
   return (

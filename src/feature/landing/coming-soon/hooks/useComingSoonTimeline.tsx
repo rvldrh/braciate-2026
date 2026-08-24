@@ -5,11 +5,14 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 import {
-  COMING_SOON_TIMELINE,
   STAGE_TOP_HEIGHT_DVH,
+  getStageHeightTier,
+} from "../constants/coming-soon.layout";
+import {
+  COMING_SOON_TIMELINE,
   STAR_KEYFRAMES,
   WORLD_TRANSLATE_KEYFRAMES,
-} from "../constants/coming-soon.constant";
+} from "../constants/coming-soon.timeline";
 import { getViewportUnits } from "../utils/viewport";
 
 import type { ComingSoonRefs } from "../types/coming-soon.type";
@@ -24,6 +27,7 @@ export function useComingSoonTimeline(refs: ComingSoonRefs) {
         starRef,
         starInnerRef,
         bgRevealRef,
+        heroRef,
         logoRef,
         titleRef,
         jargonRef,
@@ -38,6 +42,7 @@ export function useComingSoonTimeline(refs: ComingSoonRefs) {
       const starOuter = starRef.current;
       const starInner = starInnerRef.current;
       const background = bgRevealRef.current;
+      const hero = heroRef.current;
       const logo = logoRef.current;
       const jargon = jargonRef.current;
       const title = titleRef.current;
@@ -52,6 +57,7 @@ export function useComingSoonTimeline(refs: ComingSoonRefs) {
         !starOuter ||
         !starInner ||
         !background ||
+        !hero ||
         !logo ||
         !jargon ||
         !title ||
@@ -128,6 +134,26 @@ export function useComingSoonTimeline(refs: ComingSoonRefs) {
       const { vw, vh, viewportHeightPx } = getViewportUnits();
 
       /*
+       * -----------------------------------------------------------
+       * HERO CLUSTER HEIGHT — measured once at mount, straight from
+       * the rendered DOM (heroRef, see components/content/ComingSoonHero.tsx).
+       *
+       * Replaces the old `finalYVh` (a fixed % of the FULL viewport
+       * height) for the logo's "shrink and move up" animation. The logo
+       * visually lives INSIDE the 520px-capped hero wrapper, not the raw
+       * browser window — so its move-up distance should scale with that
+       * wrapper's own rendered height, not `window.innerHeight`. See
+       * `finalYFactor` in constants/coming-soon.timeline.ts for the full
+       * rationale (coming-soon-responsive-audit.md §4.1, "Sistem C").
+       * -----------------------------------------------------------
+       */
+      const heroHeightPx = hero.getBoundingClientRect().height;
+
+      const logoFinalY = COMING_SOON_TIMELINE.logo.finalYFactor * heroHeightPx;
+
+      const titleFinalY = logoFinalY;
+
+      /*
        * Helper: convert a STAR_KEYFRAMES entry to GSAP pixel x/y
        * offsets from the star's CENTERED position (viewport center).
        *
@@ -147,23 +173,20 @@ export function useComingSoonTimeline(refs: ComingSoonRefs) {
        *
        * `viewportHeightPx` above already IS what `100dvh` resolves to
        * right now (see getViewportUnits()). The multipliers below come
-       * from STAGE_TOP_HEIGHT_DVH in coming-soon.constant.ts — the same
-       * constant that documents what the Tailwind classes in
-       * ComingSoonStageTop.tsx (`h-[100dvh] md:h-[110dvh] lg:h-[120dvh]`)
-       * must be kept in sync with. This guarantees the pixel distance
-       * GSAP scrolls the world by is EXACTLY the rendered height of the
-       * stage — not an approximation based on a possibly-stale
-       * `window.innerHeight`.
+       * from STAGE_TOP_HEIGHT_DVH in constants/coming-soon.layout.ts —
+       * the same constant that documents what the Tailwind classes in
+       * ComingSoonStageTop.tsx (`h-[100dvh] sm:h-[104dvh] md:h-[108dvh]
+       * lg:h-[112dvh] xl:h-[116dvh] 2xl:h-[120dvh]`) must be kept in
+       * sync with. `getStageHeightTier()` is the SAME breakpoint
+       * resolver used everywhere else in this feature (see
+       * hooks/useBreakpoint.ts for the mobile/tablet/desktop variant
+       * used by the starfield) — one source of truth instead of a
+       * hardcoded `768`/`1024` check duplicated in this file.
        * -----------------------------------------------------------
        */
       const getStageTopHeight = () => {
-        if (window.innerWidth < 768) {
-          return viewportHeightPx * (STAGE_TOP_HEIGHT_DVH.mobile / 100);
-        }
-        if (window.innerWidth < 1024) {
-          return viewportHeightPx * (STAGE_TOP_HEIGHT_DVH.tablet / 100);
-        }
-        return viewportHeightPx * (STAGE_TOP_HEIGHT_DVH.desktop / 100);
+        const tier = getStageHeightTier(window.innerWidth);
+        return viewportHeightPx * (STAGE_TOP_HEIGHT_DVH[tier] / 100);
       };
 
       const initialWorldY = -getStageTopHeight();
@@ -262,7 +285,7 @@ export function useComingSoonTimeline(refs: ComingSoonRefs) {
         gsap.set(logo, {
           opacity: 1,
           scale: COMING_SOON_TIMELINE.logo.finalScale,
-          y: COMING_SOON_TIMELINE.logo.finalYVh * vh,
+          y: logoFinalY,
         });
         gsap.set(title, { opacity: 1, scale: 1 });
         gsap.set(dividerDiamond, { opacity: 1, scale: 1 });
@@ -650,17 +673,28 @@ export function useComingSoonTimeline(refs: ComingSoonRefs) {
        * -------------------------------------------------------
        * LOGO SHRINK + MOVE UP
        *
-       * finalYVh is in vh units. Converting to pixels here gives
-       * a consistent absolute offset on every screen size — unlike
-       * the old "-38%" which was relative to logo's CSS height and
-       * varied across breakpoints.
+       * `logoFinalY` is computed once above from the hero cluster's own
+       * rendered height (`heroHeightPx * finalYFactor`) — a consistent
+       * proportional offset on every screen size, unlike the old
+       * viewport-`vh`-based value which varied with the FULL window's
+       * aspect ratio instead of the hero content's actual size.
        * -------------------------------------------------------
        */
       timeline.to(
         logo,
         {
           scale: COMING_SOON_TIMELINE.logo.finalScale,
-          y: COMING_SOON_TIMELINE.logo.finalYVh * vh,
+          y: logoFinalY,
+          duration: COMING_SOON_TIMELINE.logo.moveDuration,
+          ease: "power2.inOut",
+        },
+        COMING_SOON_TIMELINE.logo.moveStart,
+      );
+
+      timeline.to(
+        title,
+        {
+          y: titleFinalY,
           duration: COMING_SOON_TIMELINE.logo.moveDuration,
           ease: "power2.inOut",
         },
